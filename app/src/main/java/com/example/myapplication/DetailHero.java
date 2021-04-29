@@ -42,7 +42,7 @@ import java.util.List;
 //    }
 //}
 
-public class detailHero extends AppCompatActivity {
+public class DetailHero extends AppCompatActivity {
 
     private TextView tvJudul, tvDetail;
     private ImageView photo;

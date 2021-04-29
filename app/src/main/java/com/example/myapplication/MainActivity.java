@@ -1,88 +1,48 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.view.MenuItem;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-//public class MainActivity extends AppCompatActivity {
-//    private RecyclerView recyclerView;
-//    private List<Hero> heroes = new ArrayList<>();
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//    }
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        recyclerView = findViewById(R.id.rv_hero);
-//        recyclerView.setHasFixedSize(true);
-//        heroes.addAll(HeroDataSource.getListData());
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        ListHeroAdapter adapter = new ListHeroAdapter(heroes);
-//        recyclerView.setAdapter(adapter);
-//    }
-//    private void showRecycleList() {
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        ListHeroAdapter listAdapter = new ListHeroAdapter(list);
-//        recyclerView.setAdapter(listAdapter);
-//
-//        listAdapter.setOnItemClickCallback(new ListHeroAdapter.OnItemClickCallback() {
-//            @Override
-//            public void onItemClicked(Hero data) {
-//                showSelectedHero(data);
-//            }
-//        });
-//    }
-//    private void showSelectedHero(Hero hero) {
-//        Toast.makeText(this, "Kamu memilih " + hero.getName(), Toast.LENGTH_SHORT).show();
-//    }
-//}
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-// 2VERSION
+import java.util.HashMap;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
-
-    private RecyclerView rvHeroes;
-    private ArrayList<Hero> list = new ArrayList<>();
+public class MainActivity extends AppCompatActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private BottomNavigationView bottomNavigationView;
+    private Map<Integer, Fragment> fragmentMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rvHeroes = findViewById(R.id.rv_hero);
-        rvHeroes.setHasFixedSize(true);
-
-        list.addAll(HeroDataSource.getListData());
-        showRecycleList();
-
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        fragmentMap = new HashMap<>();
     }
 
-    private void showRecycleList() {
-        rvHeroes.setLayoutManager(new LinearLayoutManager(this));
-        ListHeroAdapter listAdapter = new ListHeroAdapter(list);
-        rvHeroes.setAdapter(listAdapter);
-
-        listAdapter.setOnItemClickCallback(new ListHeroAdapter.OnItemClickCallback() {
-            @Override
-            public void onItemClicked(Hero data) {
-                showSelectedHero(data);
-            }
-        });
-    }
-    private void showSelectedHero(Hero hero) {
-        Toast.makeText(this, "Kamu memilih " + hero.getName(), Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fragmentMap.put(R.id.menu_item_hero, FragmentHero.newInstance());
+        fragmentMap.put(R.id.menu_item_show, FragmentShow.newInstance());
+        fragmentMap.put(R.id.menu_item_favorite, FragmentFavorite.newInstance());
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.menu_item_hero);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment = fragmentMap.get(item.getItemId());
+        assert fragment != null;
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .commit();
+        return true;
+    }
 }

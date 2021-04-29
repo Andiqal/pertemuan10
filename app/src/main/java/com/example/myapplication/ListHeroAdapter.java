@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 //public class ListHeroAdapter extends RecyclerView.Adapter<ListHeroAdapter.ViewHolder> {
 //
@@ -92,7 +91,7 @@ public class ListHeroAdapter extends RecyclerView.Adapter<ListHeroAdapter.ListVi
             @Override
             public void onClick(View v) {
 //                onItemClickCallback.onItemClicked(listHero.get(holder.getAdapterPosition()));
-                Intent intent = new Intent(holder.itemView.getContext(), detailHero.class);
+                Intent intent = new Intent(holder.itemView.getContext(), DetailHero.class);
                 intent.putExtra("photo", hero.getPhoto());
                 intent.putExtra("name", hero.getName());
                 intent.putExtra("detail", hero.getDetail());

@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".detailHero"></activity>
+        <activity android:name=".FragmentShow"></activity>
+        <activity android:name=".FragmentFavorite" />
+        <activity android:name=".FragmenHero" />
+        <activity android:name=".DetailHero" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
